@@ -1,0 +1,26 @@
+{
+   "background": {
+      "page": "background.html"
+   },
+   "content_scripts": [ {
+      "js": [ "js/jquery-1.11.1.min.js", "js/visual.js", "js/settings.js", "js/audio.js", "js/video.js", "js/main.js" ],
+	  "css": [ "css/vkadv.css", "css/vkadv_dialogs.css" ],
+      "matches": [ "http://vk.com/*", "http://*.vk.com/*", "https://vk.com/*", "https://*.vk.com/*", "*://*.vk.me/*", "*://vk.me/*" ]
+   } ],
+   "description": "Загрузка музыки, видео и не только.",
+   "icons": {
+      "128": "images/128.png",
+      "16": "images/16.png",
+      "32": "images/32.png",
+      "48": "images/48.png",
+      "64": "images/64.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh/3VlUZHsUZWfCSRuBaVQn4LnhMl6eXl4gjtad16rXlBMYI4UUG25JT8PmXmR+8NQq3TeTpjiMDFLkTLRrzDounBbwWwK35jy1g7xNFSJk9Zs73Oh7y/6Uj+4NV3xVNlGrGvNTcG9bcmk2wcM9kVAeeLnbFeOJCb8a/XwWICrlXtmSqFI1V4Wj5xZlvmsAlo5eV2b8GKLdJ+fh1W1uTLiP+j66fXxC7Drwakz3AFpbEc2Hu9gS1mPOLQBRnB40LvbzjbX0XDgfPmYXWNEdgzOS7K4flYf9GS2ceSDEqGzePT8eOjUuznmJYT+R8fvA+X+uoui2qaMSh5A9FFtgnneQIDAQAB",
+   "manifest_version": 2,
+   "minimum_chrome_version": "21",
+   "name": "VKontakte Advanced",
+   "permissions": [ "http://vk.com/*", "http://*.vk.com/*", "https://vk.com/*", "https://*.vk.com/*", "*://*.vk.me/*", "*://vk.me/*", "downloads" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "2.5.0",
+   "web_accessible_resources": [ "css/*", "less/*", "fonts/*", "images/*" ]
+}

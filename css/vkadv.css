@@ -1,0 +1,65 @@
+.audio .download_button {
+	width: 16px;
+	height: 16px;
+	text-align: center;
+	background: #5F7D9D;
+	color: #fff;
+	font-weight: bold;
+	margin: -1px 4px 0 0;
+	border-radius: 2px;
+	line-height: 15px;
+	opacity: 0.5;
+	display: block;
+	}
+	.audio .download_button:hover {
+		text-decoration: none;
+		opacity: 1;
+		}
+
+.audio.current .download_button {
+	opacity: 0.4;
+	background: #fff;
+	color: #5F7D9D !important;
+	}
+	.audio.current .download_button:hover {
+		opacity: 1;
+		}
+		
+.audio .bitrate {
+	width: 33px;
+	height: 16px;
+	text-align: center;
+	background: #5F7D9D;
+	color: #fff;
+	margin: -1px 4px 0 0;
+	border-radius: 2px;
+	line-height: 15px;
+	*font-weight: bold;
+	}
+	.audio.current .bitrate {
+		background: #fff;
+		color: #5F7D9D;
+		}
+.audio .bitrate.err { 
+	background: #D14545;
+	}
+	
+.vkadv_hvr_idd_item:hover {
+	background-color: #E1E7ED;
+	}
+
+.counts_module .vkadv .thumb {
+	background-position: center -132px;
+	}
+	
+.sm_wrap {
+	height: 6px;
+	margin: 11px 0 8px 0;
+	}
+	.sm_wrap .small {
+		display: inline-block;
+		padding: 1px 3px;
+		margin-left: 9px;
+		color: #555;
+		font-weight: bold;	
+		}

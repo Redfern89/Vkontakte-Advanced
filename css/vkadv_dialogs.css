@@ -1,0 +1,155 @@
+.vkAdv_boxContainerWrap {
+	width: 400px;
+	height: 400px;
+	position: fixed;
+	z-index: 9999;
+	top: 123px;
+	left: 400px;
+	-webkit-box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.35);
+	-moz-box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.35);
+	box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.35);
+	}
+	.vkAdv_boxContainerWrap .vkAdv_boxTitleWrap {
+		background-color: #597DA3;
+		border: 1px solid;
+		border-color: #45688E #43658A;
+		padding: 0px;
+		color: #FFF;
+		font-size: 1.18em;
+		font-weight: bold;
+		}
+		.vkAdv_boxTitleWrap .vkAdv_boxTitleWrap2 {
+			border-top: 1px solid #648CB7;
+			*padding: 6px 10px 8px 10px;
+			}
+			.vkAdv_boxTitleWrap .vkAdv_boxTitle {
+				padding: 8px 10px 8px 10px;
+				}
+			.vkAdv_boxTitleWrap .vkAdv_boxXButton {
+				padding: 8px 10px 8px 10px;
+				font-weight: normal;
+				color: #C7D7E9;
+				cursor: pointer;
+				}
+				.vkAdv_boxTitleWrap .vkAdv_boxXButton:hover {
+					color: #fff;
+					}
+			
+	.vkAdv_boxContainerWrap .vkAdv_boxCotentWrap {
+		border: 1px solid #ADBAC7;
+		border-width: 0px 1px 1px 1px;
+		background: #fff;
+		}
+		
+ul.vkAdv_SettingsTabs {
+	margin: 0;
+	padding: 10px 10px 0 10px;
+	list-style:	none;
+	border-bottom: 1px solid #5E82A8;
+	}
+	ul.vkAdv_SettingsTabs li.vkAdv_SettingsTab {
+		float: left;
+		margin-right: 4px;
+		}
+		li.vkAdv_SettingsTab a.vkAdv_SettingsLink {
+			display: block;
+			padding: 4px 5px;
+			text-decoration: none;
+			border-radius: 3px 3px 0 0;
+			}
+			li.vkAdv_SettingsTab a.vkAdv_SettingsLink:hover {
+				background: #f7f7f7;
+				}
+			li.vkAdv_SettingsTab a.active { 
+				background: #5E82A8;
+				color: #fff;
+				}
+				li.vkAdv_SettingsTab a.active:hover { 
+					background: #5E82A8;
+					}
+			.vkAdv_SettingsContent {
+				display: none;
+				}
+				
+.vkAdv_SettingsHeader {
+	background: #FAF2C1;
+	border: 1px solid #B9C4DA;
+	line-height: 160%;
+	font-weight: bold;
+	padding: 8px 11px;
+	margin: 10px;
+	}
+
+/* CheckBox*/
+.checkBoxControl_wrap {
+	margin: 3px 4px;
+	}
+	.checkBoxControl_wrap .checkBox_wrap {
+		padding: 2px;
+		cursor: pointer;
+		}
+		.checkBox_wrap .checkBox {
+			position: relative;
+			display: inline-block;
+			width: 44px;
+			height: 14px;
+			border: 1px solid #5E82A8;
+			}
+			.checkBox .chSlider {
+				position: absolute;
+				display: inline-block;
+				background: #99ADC2;
+				width: 13px;
+				height: 14px;
+				top: 0;
+				right: 0;
+				}
+			.checkBox .chState {
+				position: absolute;
+				color: #99ADC2;
+				display: block;
+				text-align: center;
+				width: 30px;
+				left: 0;
+				color: red;
+				}
+	.checkBoxControl_wrap .checkBoxLabel_wrap {
+		padding: 3px 0 0 5px;
+		cursor: pointer;
+		}
+		.checkBoxLabel_wrap .checkBox_Label {
+			color: #2B587A;
+			}
+	.checkBox.on .chSlider { left: 0; }
+	.checkBox.on .chState { right: 0; left: auto; color: green; }
+
+.vkAdv_SettingsTitle_Wrap {
+	border-bottom: 1px solid #DAE1E8;
+	margin: 4px;
+	}
+	.vkAdv_SettingsTitle_Wrap .vkAdv_SettingsTitle {
+		color: #45688E;
+		font-weight: bold;
+		margin-bottom: 3px;
+		}
+.vkAdv_SettingsTable {
+	width: 100%;
+	margin-bottom: 20px;
+	}
+	.vkAdv_SettingsTable tr {
+		}
+		.vkAdv_SettingsTable tr td {
+			width: 50%;
+			}
+			
+.vkAdv_Settings_Wrap {
+	}
+	.vkAdv_Settings_Wrap input,
+	.vkAdv_Settings_Wrap select {
+		width: 200px;
+		}
+	.vkAdv_Settings_Wrap label,
+	.vkAdv_Settings_Wrap select {
+		cursor: pointer;
+		margin-right: 4px;
+		}

@@ -1,0 +1,46 @@
+#side_bar {
+	width: 150px !important;
+	}
+	#side_bar ol li .left_row {
+		padding: 4px 4px 4px 6px !important;
+		}
+		#side_bar ol li .left_row:hover {
+			background: #E1E7ED !important;
+			}
+	#side_bar ol li .left_row .fa {
+		font-size: 19px;
+		margin-right: 5px;
+		color: #8DA3BD;
+		position: relative;
+		top: 1px;
+		display: block;
+		float: left;
+		width: 22px;
+		}
+
+.page_layout {
+	width: 802px !important;
+	}
+			
+#wrap1 {
+	background: #fff;
+	}
+	
+#fmenu {
+	*background: #f5f6fa !important;
+	}
+
+/* fa fix */
+.fa-user {
+	position: relative;
+	top: 1px;
+	margin-left: 2px;
+	width: 20px !important;
+	}
+	
+	
+.donate_list {
+	border: 1px solid #ccc;
+	background: #fff;
+	padding: 10px 100px;
+	}
