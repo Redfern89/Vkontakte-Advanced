@@ -92,27 +92,27 @@ var vkAdv_Settings = {
 				pageBody.css({ 'overflow-y': 'scroll' });
 			
 			boxContainerWrap.remove();
-			darkBG.remove();			
+			darkBG.remove();
 			});
-		
+
 		if (dark) pageBody.append(darkBG);
-		
+
 		boxBody.html(content);
-		
+
 		// Вставим окно в тело документа
 		pageBody.append(boxContainerWrap);
 
 		},
-		
+
 	createSettings_Tabs: function(id) {
 		var ul = $('<ul />', {
 			'class': 'vkAdv_SettingsTabs clear_fix',
 			'id': 'vkadv_settings_tabs'+id
 			});
-			
+
 		return ul;
 		},
-		
+
 	createSettings_Tab: function(ul, id, name, active) {
 		// Создаем саму вкладку
 		var a = $('<a />', {
@@ -120,23 +120,23 @@ var vkAdv_Settings = {
 			'id': 'vkadv_settings_link',
 			'href': '#'
 			}).text(name);
-			
+
 		if (active) a.addClass('active');
-		
+
 		var li = $('<li />', {
 			'class': 'vkAdv_SettingsTab',
 			'id': 'vkadv_settings_tab'+id
 			}).append(a);
-			
+
 		ul.append(li);
-		
+
 		// создаем контент под нее
 		var content = $('<div />', {
 			'class': 'vkAdv_SettingsContent',
 			'id': 'vkadv_settings_content'+id
 			});
 		if (active) content.show();
-		
+
 		$('#vkadv_box_content').append(content);
 			
 		a.on('click', function(e) {
@@ -166,7 +166,7 @@ var vkAdv_Settings = {
 		var header = $('<div />', {
 			'class': 'vkAdv_SettingsHeader',
 			'id': 'vkadv_settings_header'+id
-			}).text(text);
+			}).html(text);
 		
 		tab.append(header);
 		
@@ -270,24 +270,24 @@ var vkAdv_Settings = {
 			width: 200
 			};
 		$.extend(defaults, options);
-		
+
 		var inner = '<label for="select'+id+'">'+label+'</label><select id="select'+id+'"></select>';
 		var wrap = $('<div />', {
 			'class': 'vkAdv_Settings_Wrap',
 			'id': 'vkadv_settings_combobox_wrap'+id
 			});
-		
+
 		wrap.append(inner);
-		
+
 		var select = wrap.find('select#select'+id);
 		select.css({ width: options.width });
-		
+
 		select.on('change', function() {
 			vkAdv_Settings.saveSetting('bad_bitrate', $(this).val());
 			});
-		
+
 		var val = vkAdv_Settings.readSetting('bad_bitrate');
-		
+
 		for (var i=0; i < items.length; i++) {
 			var item = items[i];
 			var option = $('<option />');
@@ -299,30 +299,68 @@ var vkAdv_Settings = {
 
 		return wrap;
 		},
-	
+		
+	createSettings_Link: function(tab, id, params, name) {
+		var defaults = {
+			triggerClcik: false,
+			blockButton: false,
+			href: '#'
+			};
+			
+		$.extend(defaults, params);
+		
+		var a = $('<a />', {
+			'class': 'vkAdv_SettingsLink',
+			'id': 'vkadv_settings_link'+id,
+			'href': params.href,
+			'target': '_blank'
+			}).text(name);
+			
+		if (params.blockButton) {
+			var wrap = $('<div />', {
+				'class': 'vkAdv_SettingsLink_Wrap',
+				'id:': 'vkadv_settings_link_wrap'+id
+				});
+			wrap.append(a);
+			}
+		
+		if (params.triggerClcik) {
+			a.on('click', function(e) { params.triggerClcik(); cancelEvent(e); } );
+			}
+		
+		if (!params.blockButton) return a;
+		if (params.blockButton) return wrap;
+		},
+		
+	listenerHandler: function(tabId) {
+		var vkAccessToken,
+			vkAccessTokenExpiredFlag;
+			
+			console.log(tabId);
+		},
+
 	/* Показать окно настроек */
 	show_SettingsBox: function() {		
 		var tabs = vkAdv_Settings.createSettings_Tabs(1);
 		var tabMedia = vkAdv_Settings.createSettings_Tab(tabs, 1, 'Мультимедиа', true);
 		var tabIface = vkAdv_Settings.createSettings_Tab(tabs, 2, 'Интерфейс');
-		var tabUsers = vkAdv_Settings.createSettings_Tab(tabs, 3, 'Пользователи');
-		var tabSounds = vkAdv_Settings.createSettings_Tab(tabs, 4, 'Звуки');
-		var tabAbout = vkAdv_Settings.createSettings_Tab(tabs, 5, 'Коротко о...');
+		var tabAbout = vkAdv_Settings.createSettings_Tab(tabs, 3, 'Коротко о...');
 		
-		var contents = vkAdv_Settings.forceContents([ tabs, tabMedia, tabIface, tabUsers, tabSounds, tabAbout ]);
+		var contents = vkAdv_Settings.forceContents([ tabs, tabMedia, tabIface, tabAbout ]);
 		
 		/* Задаем настройки мультимедиа */
-		vkAdv_Settings.createSettings_Header(tabMedia, 1, 'Настройки мультимедиа. Всякое скачивание аудио, видео, битрейты и прочая, мало кому нужная хуита');
+		vkAdv_Settings.createSettings_Header(tabMedia, 1, '<b>Настройки мультимедиа</b>. Всякое скачивание аудио, видео, битрейты и прочая, мало кому нужная хуита');
 		vkAdv_Settings.createSettings_title(tabMedia, 1, 'Настройки аудио');
 		
 		var dw_audio = vkAdv_Settings.createSettings_CheckBox(1, 'dw_audio', 'Возможность скачивать музыку');
 		var show_bitrate = vkAdv_Settings.createSettings_CheckBox(2, 'show_bitrate', 'Показывать битрейт');
+		var strict_search = vkAdv_Settings.createSettings_CheckBox(3, 'strict_search', 'Строгий поиск по исполнителям');
 		var show_size_on_hover = vkAdv_Settings.createSettings_CheckBox(4, 'show_size_on_hover', 'Показать размер при наведении на битрейт');
-		var remove_bad_bitrate = vkAdv_Settings.createSettings_CheckBox(5, 'remove_bad_bitrate', 'Удалять трэки с низким битрейтом');
+		var remove_bad_bitrate = vkAdv_Settings.createSettings_CheckBox(5, 'remove_bad_bitrate', 'Удалять трэки с низким битрейтом из поиска');
 		//id, options, items, setting, label
 		var bad_bitrate = vkAdv_Settings.createSettings_ComboBox(1, { width: 100 }, [ 32, 64, 96, 128, 160, 192, 256, 320 ], 'bad_bitrate', 'Удалять, если битрейт ниже:');
 		
-		var audioSection = vkAdv_Settings.createSettings_Group(tabMedia, 2, 1, [dw_audio, show_bitrate, show_size_on_hover, remove_bad_bitrate, bad_bitrate]);
+		var audioSection = vkAdv_Settings.createSettings_Group(tabMedia, 2, 1, [dw_audio, show_bitrate, strict_search, show_size_on_hover, remove_bad_bitrate, bad_bitrate]);
 		
 		vkAdv_Settings.createSettings_title(tabMedia, 2, 'Настройки видео');
 		

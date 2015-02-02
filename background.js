@@ -8,3 +8,12 @@ chrome.runtime.onMessage.addListener(function(msg, t, n) {
 			});
 		}
 	});
+	
+chrome.contextMenus.create({
+	"title": "VKontakte Advanced",
+	"type": "normal",
+	"contexts": ["image"],
+	"onclick": function() {
+		alert('lol');
+		}
+	});

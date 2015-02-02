@@ -34,10 +34,7 @@ var vkAdv_audio = {
 				}).prependTo(title_wrap);
 				
 			var JS = [];
-				JS.push({
-					'url': mp3_url,
-					'name': name_track
-					});
+			JS.push({ 'url': mp3_url, 'name': name_track });
 			dwButton.on("click", function(e) {
 				cancelEvent(e);
 				chrome.runtime.sendMessage({
@@ -55,6 +52,17 @@ var vkAdv_audio = {
 				'class': 'bitrate fl_l',
 				'html': kbps,
 				}).prependTo(title_wrap);
+			
+			if (vkAdv_Settings.readSetting('show_size_on_hover') == 'on') {
+				bLabel.on('mouseenter', function(e) {
+					var size = post.attr('size');
+					$(this).text(vkAdv.formatBytes(size));
+					});
+				bLabel.on('mouseleave', function(e) {
+					var kbps = post.attr('bitrate');
+					$(this).text(kbps);
+					});
+				}
 			}
 		},
 		
@@ -73,6 +81,43 @@ var vkAdv_audio = {
 		
 		return kbps;
 		},
+		
+	remove_bad_bitrate: function() {
+		var audio = $('.audio') || undefined;
+		var is_search = top.location.href.indexOf('q=');
+		
+		if (audio.length) {
+			audio.each(function(i) {
+				var $audio = $(this) || undefined;
+				var cur_bitrate = parseInt($audio.attr('bitrate'));
+				var bad_bitrate = parseInt(vkAdv_Settings.readSetting('bad_bitrate'));
+				
+				if ((is_search != -1) && (bad_bitrate > cur_bitrate)) {
+					console.log('VK Advanced :: ( post #' + $audio.attr('id') + ' removed, bitrate=' + cur_bitrate + ')');
+					$audio.remove();
+					}
+				});
+			}
+		},
+	
+	strict_search: function() {
+		var s_search = $('#s_search').val();
+		var audio = $('.audio') || undefined;
+		var is_search = top.location.href.indexOf('q=');
+		
+		if (audio.length) {
+			audio.each(function(i) {
+				$audio = $(this) || undefined;
+				var author = $.trim($audio.find('b').find('a').text());
+				
+				/* Жесть, условие */
+				if ((is_search != -1) && (author != s_search) && ($audio.attr('chlen') == 'vstal')) {
+					$audio.remove();
+					console.log('current="'+author+'", is="'+s_search+'", id: "'+$audio.attr('id') + '"');
+					}
+				});
+			}
+		},
 	
 	/* Обработка аудиозаписей везде, где только можно */
 	audio_processing: function() {
@@ -89,8 +134,6 @@ var vkAdv_audio = {
 					var duration = vkAdv_audio.time2seconds(dur_Arr.split(':'));
 					var author = $.trim($audio.find('b').find('a').text());
 					var title = $.trim($audio.find('span.title').text());
-					
-					name_track = vkAdv_audio.replaceMnemonics(name_track);
 					
 					// Проверки на правильность
 					var name_track = 'audio' + audio_id + '.mp3';
@@ -111,7 +154,7 @@ var vkAdv_audio = {
 								var kbps = vkAdv_audio.calc_bitrate(size, duration);
 
 								$audio.find('.bitrate').text(kbps);
-								$audio.attr({ bitrate: kbps });
+								$audio.attr({ bitrate: kbps, size: size });
 								
 								// Знаю, по идиотски, но умнее влом было придумывать
 								if (kbps == '320') $audio.find('.bitrate').css({ opacity: '1' });
@@ -122,9 +165,14 @@ var vkAdv_audio = {
 								if (kbps == '96') $audio.find('.bitrate').css({ opacity: '0.5' });
 								if (kbps == '64') $audio.find('.bitrate').css({ opacity: '0.4' });
 								if (kbps <= '32') $audio.find('.bitrate').css({ opacity: '0.3' });
+								
+								if (vkAdv_Settings.readSetting('remove_bad_bitrate') == 'on')
+									vkAdv_audio.remove_bad_bitrate($audio);
+								
 								},
 							error: function(errorMessage) {
 								$audio.find('.bitrate').addClass('err').text('error');
+								$audio.attr({ bitrate: 'error', size: 'error' });
 								}
 							});
 						}

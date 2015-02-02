@@ -18,7 +18,7 @@ var vkAdv_Visual = {
 		},
 		
 	repLike: function() {
-		var like = $('.post_like_link, #pv_like_link, .like_link, .wl_post_like_label') || {};
+		var like = $('.post_like_link, #pv_like_link, .like_link, .wl_post_like_label, .photo_like_post') || {};
 		
 		like.each(function(i) {
 			var $like = $(this) || undefined;
@@ -67,6 +67,7 @@ var vkAdv_Visual = {
 		
 	enableIncons: function() {
 		var h = $('head') || null;
+		var hr = top.location.href;
 		
 		if (h && !h.attr('chlen')) {
 			vkAdv_Visual.load_css('vkadv_iface.css');
@@ -77,6 +78,11 @@ var vkAdv_Visual = {
 			var sb_w = 154;
 			var sb = $('#side_bar') || null;
 			var incWidth = 19;
+			
+			if (vkAdv.thisURL != hr) {
+				pl.removeAttr('chlen');
+				vkAdv.thisURL = hr;
+				}
 			
 			/* "#page_layout" WIDTH bug fix !!!!! */
 			if (!pl.attr('chlen')) {

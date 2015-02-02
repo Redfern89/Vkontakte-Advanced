@@ -19,8 +19,12 @@
    "manifest_version": 2,
    "minimum_chrome_version": "21",
    "name": "VKontakte Advanced",
-   "permissions": [ "http://vk.com/*", "http://*.vk.com/*", "https://vk.com/*", "https://*.vk.com/*", "*://*.vk.me/*", "*://vk.me/*", "downloads" ],
+   "permissions": [ "http://vk.com/*", "http://*.vk.com/*", "https://vk.com/*", "https://*.vk.com/*", "*://*.vk.me/*", "*://vk.me/*", "downloads", "storage", "contextMenus", "tabs" ],
    "update_url": "https://clients2.google.com/service/update2/crx",
    "version": "2.5.0",
-   "web_accessible_resources": [ "css/*", "less/*", "fonts/*", "images/*" ]
+   "web_accessible_resources": [ "css/*", "less/*", "fonts/*", "images/*" ],
+"page_action": {
+    "default_icon": "images/16.png",
+    "default_title": "HabrPrint"
+  }
 }

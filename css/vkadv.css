@@ -63,3 +63,8 @@
 		color: #555;
 		font-weight: bold;	
 		}
+		
+.removed_wrap {
+	font-weight: bold;
+	padding: 2px 1px 1px 1px;
+	}
