@@ -232,7 +232,7 @@ var vkAdv_Settings = {
 			for (var k = 0; k < cells; k++) {
 				cell++;	
 				var td = $('<td />', { 'width': cell_width, 'id': 'vkadv_cell'+id+'_'+cell });
-				td.append(objects[cell-1]);
+				td.append(objects[cell -1]);
 				tr.append(td);
 				}
 			table.append(tr);
@@ -283,10 +283,10 @@ var vkAdv_Settings = {
 		select.css({ width: options.width });
 
 		select.on('change', function() {
-			vkAdv_Settings.saveSetting('bad_bitrate', $(this).val());
+			vkAdv_Settings.saveSetting(setting, $(this).val());
 			});
 
-		var val = vkAdv_Settings.readSetting('bad_bitrate');
+		var val = vkAdv_Settings.readSetting(setting);
 
 		for (var i=0; i < items.length; i++) {
 			var item = items[i];
@@ -349,7 +349,7 @@ var vkAdv_Settings = {
 		var contents = vkAdv_Settings.forceContents([ tabs, tabMedia, tabIface, tabAbout ]);
 		
 		/* Задаем настройки мультимедиа */
-		vkAdv_Settings.createSettings_Header(tabMedia, 1, '<b>Настройки мультимедиа</b>. Всякое скачивание аудио, видео, битрейты и прочая, мало кому нужная хуита');
+		vkAdv_Settings.createSettings_Header(tabMedia, 1, '<b>Настройки мультимедиа</b>. Всякое скачивание аудио, видео, битрейты и прочая, мало кому нужная х**та');
 		vkAdv_Settings.createSettings_title(tabMedia, 1, 'Настройки аудио');
 		
 		var dw_audio = vkAdv_Settings.createSettings_CheckBox(1, 'dw_audio', 'Возможность скачивать музыку');
@@ -369,8 +369,14 @@ var vkAdv_Settings = {
 		
 		var videoSection = vkAdv_Settings.createSettings_Group(tabMedia, 2, 1, [dw_video, video_name_fmt]);
 		
+		vkAdv_Settings.createSettings_title(tabMedia, 5, 'Всякое разное');
+		var slow_inet = vkAdv_Settings.createSettings_CheckBox(12, 'slow_inet', 'У меня медленный инет');
+		var bitrate_timeout = vkAdv_Settings.createSettings_Edit(13, { width: 40 }, 'bitrate_timeout', 'Таймаут определения битрейта (мс):');
+		
+		var otherSection = vkAdv_Settings.createSettings_Group(tabMedia, 2, 1, [ slow_inet, bitrate_timeout ]);
+		
 		/* Задаем настройки интерфейса */
-		vkAdv_Settings.createSettings_Header(tabIface, 2, 'Настройки интерфейса, такие как лайки всякие там иконки и тд');
+		vkAdv_Settings.createSettings_Header(tabIface, 2, '<b>Настройки интерфейса</b>, такие как лайки всякие там иконки и тд');
 		
 		vkAdv_Settings.createSettings_title(tabIface, 3, 'Основные настройки');
 		
@@ -382,6 +388,8 @@ var vkAdv_Settings = {
 		var ad_block = vkAdv_Settings.createSettings_CheckBox(11, 'ad_block', 'Заблочить рекламу');		
 		
 		var genIface_section = vkAdv_Settings.createSettings_Group(tabIface, 2, 1, [replike, replike_text, new_interface, en_logo, audio_to_top, ad_block]);
+		
+		vkAdv_Settings.createSettings_Header(tabAbout, 3, '<b>Коротко о...</b> Разаработчиках! О тех самых свтяых людях...');
 		
 		vkAdv_Settings.showBox({ height: 400, width: 700, title: 'Настройки Vkontakte Advanced v2.5.0 (build 1102)' }, contents, true);
 		}
