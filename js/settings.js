@@ -228,7 +228,7 @@ var vkAdv_Settings = {
 		
 		for (var i = 0; i < rows_count; i++) {
 			row++;
-			var tr = $('<tr />', { 'id': 'vkadv_row'+i+'_'+id });
+			var tr = $('<tr />', { 'id': 'vkadv_row'+id+'_'+row });
 			for (var k = 0; k < cells; k++) {
 				cell++;	
 				var td = $('<td />', { 'width': cell_width, 'id': 'vkadv_cell'+id+'_'+cell });
