@@ -45,13 +45,20 @@ var vkAdv_audio = {
 			}
 		},
 	
-	add_bitrate_label: function(post, kbps) {
+	add_bitrate_label: function(post, kbps, options) {
 		if (post.length) {
+			
+			var defaults = {
+				width: 33
+				};
+			$.extend(defaults, options);
+			
 			var title_wrap = post.find('.title_wrap');
 			var bLabel = $('<div />', {
 				'class': 'bitrate fl_l',
 				'html': kbps,
 				}).prependTo(title_wrap);
+			bLabel.css({ width: options.width });
 			
 			if (vkAdv_Settings.readSetting('show_size_on_hover') == 'on') {
 				bLabel.on('mouseenter', function(e) {
@@ -93,7 +100,8 @@ var vkAdv_audio = {
 				var bad_bitrate = parseInt(vkAdv_Settings.readSetting('bad_bitrate'));
 				
 				if ((is_search != -1) && (bad_bitrate > cur_bitrate)) {
-					console.log('VK Advanced :: ( post #' + $audio.attr('id') + ' removed, bitrate=' + cur_bitrate + ')');
+					if (vkAdv.debug)
+						console.log('VKADV_audio :: ( post #' + $audio.attr('id') + ' removed, bitrate=' + cur_bitrate + ')');
 					$audio.remove();
 					}
 				});
@@ -113,7 +121,8 @@ var vkAdv_audio = {
 				/* Жесть, условие */
 				if ((is_search != -1) && (author != s_search) && ($audio.attr('chlen') == 'vstal')) {
 					$audio.remove();
-					console.log('current="'+author+'", is="'+s_search+'", id: "'+$audio.attr('id') + '"');
+					if (vkAdv.debug)
+						console.log('VKADV_audio :: (current="'+author+'", is="'+s_search+'", id: "'+$audio.attr('id') + '")');
 					}
 				});
 			}
@@ -149,6 +158,7 @@ var vkAdv_audio = {
 							type: "HEAD",
 							async: true,
 							url: mp3_url,
+							timeout: parseInt(vkAdv_Settings.readSetting('bitrate_timeout')),
 							success: function(message) {
 								var size = aj.getResponseHeader('Content-Length');
 								var kbps = vkAdv_audio.calc_bitrate(size, duration);
@@ -177,7 +187,7 @@ var vkAdv_audio = {
 							});
 						}
 					
-					vkAdv_audio.add_bitrate_label($audio, 'load');
+					vkAdv_audio.add_bitrate_label($audio, 'load', { width: 40 });
 					}
 					vkAdv_audio.add_download_link($audio, mp3_url, name_track);
 					

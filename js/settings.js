@@ -244,7 +244,11 @@ var vkAdv_Settings = {
 	
 	createSettings_Edit: function(id, options, setting, label) {
 		var defaults = {
-			width: 200
+			width: 200,
+			numberOnly: false,
+			minValue: 0,
+			maxValue: 32655,
+			defVal: 10
 			};
 		$.extend(defaults, options);
 		
@@ -255,14 +259,56 @@ var vkAdv_Settings = {
 			});
 		wrap.append(inner);
 		
-		var edit_input = wrap.find('input#edit'+id);		
+		var validNuber;
+		var edit_input = wrap.find('input#edit'+id);
+		var val = edit_input.val() || undefined;
+		 if (options.numberOnly) {
+			edit_input.ForceNumericOnly(); 
+			if (val) {
+				var numberVal = parseInt(val);
+				if (numberVal > options.maxValue || numberVal < options.value) validNuber = true;
+				if (!numberVal) numberVal = options.defVal;
+				}
+			}
+		
 		edit_input.css({ width: options.width });
 		edit_input.keyup(function(e) {
-			vkAdv_Settings.saveSetting(setting, $(this).val());
+			if (!options.numberOnly)
+				vkAdv_Settings.saveSetting(setting, $(this).val());			
+			if (options.numberOnly && validNuber)
+				vkAdv_Settings.saveSetting(setting, numberVal);
 			});
 		edit_input.val(vkAdv_Settings.readSetting(setting));
 		
 		return wrap;
+		},
+		
+	createSettings_AudioPreeview: function(id, options, label) {
+		var defaults = {
+			sound: null
+			};
+		var player_wrap = $('<div />', {
+			'class': 'vkAdv_SettingsPlayerWrap clear_fix',
+			'id': 'vkadv_settings_player_wrap'+id
+			});
+		var tpl = '<div class="vkAdv_SettingsPlayBtn"></div><div class="vkAdv_SettingsPlayerLabel" id="player_label'+id+'"></div>';
+		player_wrap.append(tpl);
+		var $label = player_wrap.find('#player_label'+id);
+		$label.text(label);
+		var theme = vkAdv_Settings.readSetting('vkadv_sounds');
+		
+		player_wrap.on('click', function(e) {
+			$this = $(this) || undefined;
+			$this.jWebAudio('addSoundSource', {
+				'url': '',
+				'preLoad': true,
+				'callback': function() {
+					player_wrap.jWebAudio('play');
+					}
+				});
+			});
+
+		return player_wrap;
 		},
 		
 	createSettings_ComboBox: function(id, options, items, setting, label) {
@@ -294,9 +340,26 @@ var vkAdv_Settings = {
 			if (val == item) option.attr({ selected: '' });
 			option.text(item);
 			select.append(option);
-			console.log(item);
 			};
 
+		return wrap;
+		},
+		
+	createSettings_Text: function(tab, id, params, text) {
+		var defaults = {
+			appendToTab: true
+			};
+		$.extend(defaults, params);
+		
+		var wrap = $('<div />', {
+			'class': 'vkAdv_SettingsTextWrap',
+			'id': 'vkadv_settings_text_wrap'+id
+			});
+			
+		wrap.html(text);
+		
+		if (params.appendToTab) tab.append(wrap);
+		
 		return wrap;
 		},
 		
@@ -344,7 +407,8 @@ var vkAdv_Settings = {
 		var tabs = vkAdv_Settings.createSettings_Tabs(1);
 		var tabMedia = vkAdv_Settings.createSettings_Tab(tabs, 1, 'Мультимедиа', true);
 		var tabIface = vkAdv_Settings.createSettings_Tab(tabs, 2, 'Интерфейс');
-		var tabAbout = vkAdv_Settings.createSettings_Tab(tabs, 3, 'Коротко о...');
+		//var tabSounds = vkAdv_Settings.createSettings_Tab(tabs, 3, 'Звуки');
+		var tabAbout = vkAdv_Settings.createSettings_Tab(tabs, 4, 'Коротко о...');
 		
 		var contents = vkAdv_Settings.forceContents([ tabs, tabMedia, tabIface, tabAbout ]);
 		
@@ -371,7 +435,7 @@ var vkAdv_Settings = {
 		
 		vkAdv_Settings.createSettings_title(tabMedia, 5, 'Всякое разное');
 		var slow_inet = vkAdv_Settings.createSettings_CheckBox(12, 'slow_inet', 'У меня медленный инет');
-		var bitrate_timeout = vkAdv_Settings.createSettings_Edit(13, { width: 40 }, 'bitrate_timeout', 'Таймаут определения битрейта (мс):');
+		var bitrate_timeout = vkAdv_Settings.createSettings_ComboBox(3, { width: 100 }, [ 60, 200, 500, 1000, 2500, 4500, 8000, 10000 ], 'bitrate_timeout', 'Таймаут определения битрейта (мс)');
 		
 		var otherSection = vkAdv_Settings.createSettings_Group(tabMedia, 2, 1, [ slow_inet, bitrate_timeout ]);
 		
@@ -389,9 +453,20 @@ var vkAdv_Settings = {
 		
 		var genIface_section = vkAdv_Settings.createSettings_Group(tabIface, 2, 1, [replike, replike_text, new_interface, en_logo, audio_to_top, ad_block]);
 		
-		vkAdv_Settings.createSettings_Header(tabAbout, 3, '<b>Коротко о...</b> Разаработчиках! О тех самых свтяых людях...');
+		vkAdv_Settings.createSettings_Header(tabAbout, 4, '<b>Коротко о...</b> Разаработчиках! О тех самых святых людях...');
 		
-		vkAdv_Settings.showBox({ height: 400, width: 700, title: 'Настройки Vkontakte Advanced v2.5.0 (build 1102)' }, contents, true);
+		vkAdv_Settings.createSettings_title(tabAbout, 5, 'О Программе');
+		vkAdv_Settings.createSettings_Text(tabAbout, 1, { appendToTab: true }, vkAdv.aboutText);
+		
+		vkAdv_Settings.createSettings_title(tabAbout, 6, 'Версия и номер сборки');
+		vkAdv_Settings.createSettings_Text(tabAbout, 2, { appendToTab: true }, '<b>Версия: </b>'+vkAdv.version+'<br />'+'<b>Сборка: </b>' + vkAdv.build)
+		
+		vkAdv_Settings.createSettings_title(tabAbout, 7, 'Полезные сслыки & разарботчики');
+		var links_tpl = '<ul class="vkAdv_SettingsLinksList"><li><a href="https://vk.com/public79105698">Сообщество Vkontakte Advanced</a></li><li><a href="https://addons.opera.com/ru/extensions/details/vkontakte-downloader-advanced/?display=ru">Vkontakte Advanced для Opera</a></li><li><a href="https://chrome.google.com/webstore/detail/vkontakte-downloader-adva/dippnhhkiiicildmbcdaaiodiekekblc?hl=ru">Vkontakte Advanced для Google Chrome</a></li><li><a href="https://github.com/Redfern89/Vkontakte-advanced">Репозиторий на GitHub</a></li><li><a href="https://vk.com/vk.com_89"><b> Вадим Алиев</b> - Разаработчик JS</a></li><li><a href="https://vk.com/padonak_vbg"><b>Денис Кораблев</b> - Дизайнер и идейный вдохновитель</a></li></ul>';
+		
+		vkAdv_Settings.createSettings_Text(tabAbout, 3, { appendToTab: true }, links_tpl);
+		
+		vkAdv_Settings.showBox({ height: 400, width: 700, title: 'Настройки Vkontakte Advanced v'+vkAdv.version+' (build '+vkAdv.build+')' }, contents, true);
 		}
 
 	}

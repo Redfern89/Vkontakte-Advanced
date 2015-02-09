@@ -143,6 +143,7 @@ ul.vkAdv_SettingsTabs {
 			}
 			
 .vkAdv_Settings_Wrap {
+	padding: 4px 5px;
 	}
 	.vkAdv_Settings_Wrap input,
 	.vkAdv_Settings_Wrap select {
@@ -153,3 +154,38 @@ ul.vkAdv_SettingsTabs {
 		cursor: pointer;
 		margin-right: 4px;
 		}
+
+.vkAdv_SettingsPlayerWrap {
+	cursor: pointer;
+	padding: 4px 5px;
+	}
+	.vkAdv_SettingsPlayerWrap .vkAdv_SettingsPlayBtn {
+		background: url('https://vk.com/images/playpause.gif') no-repeat 0px 0px;
+		width: 16px;
+		height: 16px;
+		cursor: pointer;
+		float: left;
+		margin-right: 5px;
+		}
+	.vkAdv_SettingsPlayerWrap .vkAdv_SettingsPlayerLabel {
+		color: #2B587A;
+		float: left;
+		padding: 1px;
+		}
+	
+.vkAdv_SettingsTextWrap {
+	line-height: 140%;
+	padding: 4px 5px 10px 8px;
+	}
+	.vkAdv_SettingsLinksList {
+		padding: 7px 0 0 22px;
+		margin: 0;
+		}
+		.vkAdv_SettingsLinksList li {
+			*padding: 4px 0;
+			color: #758EAE;
+			*list-style-type: square;
+			}
+			.vkAdv_SettingsLinksList li a {
+				
+				}

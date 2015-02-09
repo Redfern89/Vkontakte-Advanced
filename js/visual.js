@@ -1,5 +1,7 @@
 var vkAdv_Visual = {
 	
+	debug: false,
+	
 	load_css: function(css) {
 		var h = $('head') || undefined;
 		var _css = $('<link />', { rel: 'stylesheet', type: 'text/css', href: 'chrome-extension://' + vkAdv.vkadv_ext_id + '/css/'+css });
@@ -67,53 +69,47 @@ var vkAdv_Visual = {
 		
 	enableIncons: function() {
 		var h = $('head') || null;
-		var hr = top.location.href;
+		var pl = $('#page_layout') || null;
+		var pb_w = parseInt($('#page_body').css( 'width' ));
+		var sb_w = 154;
+		var sb = $('#side_bar') || null;
+		var incWidth = 19;
+
+		/* "#page_layout" WIDTH bug fix !!!!! */
+		if (!pl.attr('chlen')) {
+			var new_page_width = sb_w + pb_w + incWidth;
+			pl.css({ 'width' : new_page_width });
+			pl.attr({ chlen: "vstal" });
+			if (vkAdv.debug) console.log('VKADV_visual :: new_page_width='+new_page_width);
+			}
+				
 		
 		if (h && !h.attr('chlen')) {
 			vkAdv_Visual.load_css('vkadv_iface.css');
 			vkAdv_Visual.load_css('font-awesome.css');
 			
-			var pl = $('#page_layout') || null;
-			var pb_w = parseInt($('#page_body').css( 'width' ));
-			var sb_w = 154;
-			var sb = $('#side_bar') || null;
-			var incWidth = 19;
-			
-			if (vkAdv.thisURL != hr) {
-				pl.removeAttr('chlen');
-				vkAdv.thisURL = hr;
-				}
-			
-			/* "#page_layout" WIDTH bug fix !!!!! */
-			if (!pl.attr('chlen')) {
-				var new_page_width = sb_w + pb_w + incWidth + 'px';
-				pl.css({ 'width' : new_page_width });
-				pl.attr({ chlen: "vstal" });
-				console.log(sb_w);
-				}
+			h.attr({ chlen: "vstal" });
 				
-				h.attr({ chlen: "vstal" });
+			$('#side_bar').find('a').each(function() {
+				var id = $(this).attr('id');
+				var hr = $(this).attr('href');
 				
-				$('#side_bar').find('a').each(function() {
-					var id = $(this).attr('id');
-					var hr = $(this).attr('href');
-					
-					/* Знаю, по-идиотски, но умнее влом было придумывать */
-					if (id == 'myprofile') vkAdv_Visual.addSideBar_Icon($(this), 'user');
-					if ($(this).parent().attr('id') == 'l_fr') vkAdv_Visual.addSideBar_Icon($(this), 'star');
-					if ($(this).parent().attr('id') == 'l_ph') vkAdv_Visual.addSideBar_Icon($(this), 'camera');
-					if ($(this).parent().attr('id') == 'l_vid') vkAdv_Visual.addSideBar_Icon($(this), 'film');
-					if ($(this).attr('href').indexOf('audios') != -1) vkAdv_Visual.addSideBar_Icon($(this), 'music');
-					if ($(this).parent().attr('id') == 'l_msg') vkAdv_Visual.addSideBar_Icon($(this), 'envelope-o');
-					if ($(this).parent().attr('id') == 'l_gr') vkAdv_Visual.addSideBar_Icon($(this), 'cubes');
-					if ($(this).parent().attr('id') == 'l_nwsf') vkAdv_Visual.addSideBar_Icon($(this), 'comment');
-					if ($(this).parent().attr('id') == 'l_nws') vkAdv_Visual.addSideBar_Icon($(this), 'comments-o');
-					if ($(this).attr('href').indexOf('fave') != -1) vkAdv_Visual.addSideBar_Icon($(this), 'database');
-					if ($(this).parent().attr('id') == 'l_set') vkAdv_Visual.addSideBar_Icon($(this), 'wrench');
-					if ($(this).parent().attr('id') == 'l_ap') vkAdv_Visual.addSideBar_Icon($(this), 'futbol-o');
-					if ($(this).attr('href').indexOf('docs') != -1) vkAdv_Visual.addSideBar_Icon($(this), 'cloud');
-					if ($(this).parent().attr('id') == 'l_ads') vkAdv_Visual.addSideBar_Icon($(this), 'crop');
-					});
-				}
+				/* Знаю, по-идиотски, но умнее влом было придумывать */
+				if (id == 'myprofile') vkAdv_Visual.addSideBar_Icon($(this), 'user');
+				if ($(this).parent().attr('id') == 'l_fr') vkAdv_Visual.addSideBar_Icon($(this), 'star');
+				if ($(this).parent().attr('id') == 'l_ph') vkAdv_Visual.addSideBar_Icon($(this), 'camera');
+				if ($(this).parent().attr('id') == 'l_vid') vkAdv_Visual.addSideBar_Icon($(this), 'film');
+				if ($(this).attr('href').indexOf('audios') != -1) vkAdv_Visual.addSideBar_Icon($(this), 'music');
+				if ($(this).parent().attr('id') == 'l_msg') vkAdv_Visual.addSideBar_Icon($(this), 'envelope-o');
+				if ($(this).parent().attr('id') == 'l_gr') vkAdv_Visual.addSideBar_Icon($(this), 'cubes');
+				if ($(this).parent().attr('id') == 'l_nwsf') vkAdv_Visual.addSideBar_Icon($(this), 'comment');
+				if ($(this).parent().attr('id') == 'l_nws') vkAdv_Visual.addSideBar_Icon($(this), 'comments-o');
+				if ($(this).attr('href').indexOf('fave') != -1) vkAdv_Visual.addSideBar_Icon($(this), 'database');
+				if ($(this).parent().attr('id') == 'l_set') vkAdv_Visual.addSideBar_Icon($(this), 'wrench');
+				if ($(this).parent().attr('id') == 'l_ap') vkAdv_Visual.addSideBar_Icon($(this), 'futbol-o');
+				if ($(this).attr('href').indexOf('docs') != -1) vkAdv_Visual.addSideBar_Icon($(this), 'cloud');
+				if ($(this).parent().attr('id') == 'l_ads') vkAdv_Visual.addSideBar_Icon($(this), 'crop');
+				});
 			}
+		}
 	}

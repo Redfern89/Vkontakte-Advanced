@@ -1,5 +1,11 @@
 /* User Script "main.js" */
 var vkAdv = {
+	// Отладка
+	debug: true,
+	
+	version: '2.5.0',
+	build: '1102',
+	
 	/* Вспомогательные функции */
 	formatBytes: function(size) {
 		var kb = size / 1024,
@@ -39,7 +45,9 @@ var vkAdv = {
 		
 	/* Dialogs */
 	vkAdv_box_html: '<div class="vkAdv_box" id="id_vkadv_box"><div id="id_vkadv_box_title_wrap" class="vkAdv_boxTitleWrap"><div id="id_vkadv_box_title_wrap2" class="vkAdv_boxTitleWrap2 clear_fix"><div id="id_vkadv_box_title" class="vkAdv_boxTitle fl_l"></div><div class="vkAdv_boxXButton fl_r" id="id_vkadv_box_x_button">Закрыть</div></div></div><div class="vkAdv_boxCotentWrap" id="vkadv_box_content_wrap"><div class="vkAdv_boxContent" id="vkadv_box_content"></div></div></div>',
-	vkAdv_checkBox: '<div class="checkBoxControl_wrap clear_fix"><div class="checkBox_wrap fl_l"><span class="checkBox  clear_fix"><span class="chSlider"></span><span class="chState">Выкл.</span></span></div><div class="checkBoxLabel_wrap fl_l"><div class="checkBox_Label"></div></div></div>'
+	vkAdv_checkBox: '<div class="checkBoxControl_wrap clear_fix"><div class="checkBox_wrap fl_l"><span class="checkBox  clear_fix"><span class="chSlider"></span><span class="chState">Выкл.</span></span></div><div class="checkBoxLabel_wrap fl_l"><div class="checkBox_Label"></div></div></div>',
+	
+	aboutText: '<b>Vkontakte Advanced</b> - это расширение для браузеров <b>Google Chrome</b> и <b>Opera</b> для загрузки музыки, видео с ВК и кое-какой смены внешнего вида. Расширение обладает всеми стандартными функциями, которые есть весьма во многих расширениях подобной тематики. Было написанно в ознокомительных целях для изучения <b><u>JavaScript</u></b> и <b><u>jQuery</u></b>. <b>Расширение полностью бесплатно и с открытым исходным кодом.</b>'
 	}
 	
 function cancelEvent(event) {
@@ -53,6 +61,8 @@ function cancelEvent(event) {
 	return false;
 	}
 	
+var this_location = top.location.href;
+
 function rs(s) { return vkAdv_Settings.readSetting(s); }
 function ss(p, v) { return vkAdv_Settings.saveSetting(p, v); }
 
@@ -62,10 +72,18 @@ function setDefault() {
 	if (!rs('video_name_fmt')) ss('video_name_fmt', '{video} ({hd}).mp4');
 	if (!rs('replike_text')) ss('replike_text', 'Мне нравится');
 	if (!rs('bad_bitrate')) ss('bad_bitrate', '320');
+	if (!rs('bitrate_timeout')) ss('bad_bitrate', '1000');
 	}
 
 /* основное */
 setInterval(function(){
+	
+	var curr_location = top.location.href;
+	
+	if (this_location != curr_location) {
+		this_location = curr_location;
+		$('#page_layout').removeAttr('chlen');
+		}
 	
 	/* Ссылка на настройки */
 	var profile_counts = $('#profile_counts') || {};
